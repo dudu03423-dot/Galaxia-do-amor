@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b05">
+<title>Uma Galáxia de Amor 🌻</title>
+<style>
+  :root { --gold:#ffe66d; --pink:#ff4fa3; --cream:#fff8d8; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; min-height:100%; background:#050604; color:var(--cream); font-family:Georgia,"Times New Roman",serif; }
+  body { overflow-x:hidden; }
+  .scene {
+    position:relative; min-height:100svh; overflow:hidden; isolation:isolate;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:28px 18px 34px;
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(255,220,48,.30), transparent 30%),
+      radial-gradient(ellipse at 18% 20%, rgba(255,205,0,.12), transparent 28%),
+      radial-gradient(ellipse at 80% 75%, rgba(255,190,0,.10), transparent 30%),
+      linear-gradient(#101207,#030403 76%);
+  }
+  #space { position:absolute; inset:0; width:100%; height:100%; z-index:-1; }
+  .glow { position:absolute; width:min(80vw,500px); aspect-ratio:1; border-radius:50%; background:#f9d92d; filter:blur(100px); opacity:.09; top:17%; left:50%; transform:translateX(-50%); z-index:-1; }
+  .eyebrow { font:600 .75rem/1.4 system-ui,sans-serif; letter-spacing:.35em; text-transform:uppercase; color:#f9df77; opacity:.9; text-align:center; }
+  h1 { text-align:center; font-size:clamp(2rem,7vw,4.5rem); line-height:1.05; font-weight:500; margin:12px 0 8px; text-shadow:0 0 25px #f8d83e77; }
+  .subtitle { text-align:center; max-width:560px; color:#f8efc9; opacity:.85; font-size:clamp(.95rem,2.5vw,1.15rem); line-height:1.6; margin:0 auto 20px; }
+  .universe { position:relative; width:min(100%,850px); height:min(55vh,470px); min-height:320px; display:flex; align-items:center; justify-content:center; }
+  .orbit { position:absolute; width:min(68vw,410px); aspect-ratio:1; border:1px solid #fce87925; border-radius:50%; animation:spin 35s linear infinite; }
+  .orbit:before,.orbit:after { content:""; position:absolute; width:7px;height:7px;border-radius:50%;background:#fff3a3;box-shadow:0 0 14px 5px #f7df5a88; }
+  .orbit:before { top:10%; left:18%; } .orbit:after { right:8%; bottom:28%; }
+  .orbit.two { width:min(88vw,530px); animation-direction:reverse; animation-duration:48s; border-style:dashed; opacity:.5; }
+  .heart-wrap { position:relative; width:clamp(180px,48vw,310px); aspect-ratio:1; display:grid; place-items:center; animation:float 4s ease-in-out infinite; }
+  #heart { width:100%; height:100%; overflow:visible; filter:drop-shadow(0 0 17px #ffe34dcc); }
+  #heartParticles circle { fill:#ffe66d; }
+  #heartDrifters circle { fill:#fff4a8; filter:drop-shadow(0 0 4px #ffe34d); }
+  .heart-message { position:absolute; top:49%; left:50%; transform:translate(-50%,-50%); text-align:center; white-space:nowrap; font-size:clamp(.95rem,4vw,1.45rem); color:#fff9d8; text-shadow:0 0 12px #ffdf49; }
+  .heart-message small { display:block; font-size:clamp(.62rem,2.4vw,.78rem); margin-top:6px; letter-spacing:.04em; }
+  .heart-message strong { color:#ffe66d; font-size:1.25em; }
+  .flower { position:absolute; font-size:clamp(2.4rem,8vw,4.4rem); filter:drop-shadow(0 0 12px #ffdd44aa); animation:sway 3.6s ease-in-out infinite; user-select:none; }
+  .f1 { left:5%; top:24%; } .f2 { right:5%; top:25%; animation-delay:-1s; } .f3 { left:13%; bottom:12%; font-size:clamp(2rem,6vw,3.5rem); animation-delay:-2s; } .f4 { right:12%; bottom:9%; font-size:clamp(2.2rem,7vw,3.8rem); animation-delay:-.5s; } .f5 { right:23%; top:8%; font-size:1.7rem; animation-delay:-1.8s; } .f6 { left:24%; top:8%; font-size:1.8rem; animation-delay:-.8s; }
+  .message { position:absolute; font:600 clamp(.75rem,2.5vw,1rem)/1.3 system-ui,sans-serif; color:#fff8d5; text-shadow:0 0 12px #ffda43; animation:twinkle 3s ease-in-out infinite; }
+  .m1 { top:17%; left:30%; } .m2 { right:3%; top:51%; } .m3 { left:2%; top:55%; } .m4 { right:25%; bottom:5%; } .m5 { left:27%; bottom:14%; }
+  .note { border:1px solid #f6de6940; background:#0b1008b8; backdrop-filter:blur(10px); border-radius:18px; padding:14px 20px; width:min(100%,510px); text-align:center; box-shadow:0 0 45px #f6d42b12; }
+  .note p { margin:0; font-size:1.05rem; line-height:1.65; }
+  .note .signature { color:#ffdf72; margin-top:8px; font-style:italic; }
+  .controls { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:18px; }
+  button { font:600 .95rem system-ui,sans-serif; color:#211b04; background:linear-gradient(135deg,#fff09b,#f5c72c); border:0; border-radius:999px; padding:12px 18px; cursor:pointer; box-shadow:0 5px 22px #f5d33c22; transition:transform .2s,filter .2s; }
+  button:hover { transform:translateY(-2px); filter:brightness(1.08); }
+  button.secondary { background:#171b10; color:#fff1b4; border:1px solid #f4df7955; box-shadow:none; }
+  .hint { font: .75rem system-ui,sans-serif; opacity:.55; text-align:center; margin-top:16px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  @keyframes float { 0%,100% { transform:translateY(0) scale(1); } 50% { transform:translateY(-9px) scale(1.025); } }
+  @keyframes sway { 0%,100% { transform:rotate(-7deg) translateY(0); } 50% { transform:rotate(7deg) translateY(-7px); } }
+  @keyframes twinkle { 0%,100% { opacity:.55; } 50% { opacity:1; } }
+  @media (max-height:700px) { .scene { padding-top:18px; } .universe { height:45vh; min-height:260px; } .subtitle { margin-bottom:8px; } }
+  @media (prefers-reduced-motion:reduce) { *,*:before,*:after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } }
+</style>
+</head>
+<body>
+<main class="scene">
+  <canvas id="space" aria-hidden="true"></canvas><div class="glow"></div>
+  <div class="eyebrow">um pequeno universo para você</div>
+  <h1>Minha Galáxia de Amor</h1>
+  <p class="subtitle">Entre bilhões de estrelas, meu lugar favorito ainda é ao seu lado. 🌻</p>
+  <section class="universe" aria-label="Coração luminoso rodeado por flores amarelas e estrelas">
+    <div class="orbit"></div><div class="orbit two"></div>
+    <span class="flower f1">🌻</span><span class="flower f2">🌻</span>
+    <span class="flower f3">💛</span><span class="flower f4">🌻</span>
+    <span class="flower f5">✦</span><span class="flower f6">✧</span>
+    <span class="message m1">Você é especial ✨</span>
+    <span class="message m2">Meu amor 💛</span>
+    <span class="message m3">Te adoro 🌼</span>
+    <span class="message m4">Minha pessoa favorita</span>
+    <span class="message m5">Você ilumina tudo</span>
+    <div class="heart-wrap">
+      <svg id="heart" viewBox="0 0 300 280" role="img" aria-label="Coração feito de pontos dourados">
+        <defs><radialGradient id="gold"><stop stop-color="#fffbd0"/><stop offset=".45" stop-color="#ffe75c"/><stop offset="1" stop-color="#f3b900"/></radialGradient></defs>
+        <path id="heartPath" d="M150 248 C126 220 34 157 34 91 C34 25 111 14 150 70 C189 14 266 25 266 91 C266 157 174 220 150 248Z" fill="none" stroke="url(#gold)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 9" opacity=".48"/>
+        <g id="heartParticles" aria-hidden="true"></g>
+        <g id="heartDrifters" aria-hidden="true"></g>
+      </svg>
+      <div class="heart-message">Eu te amo <span>💛</span>
+        <small>há <strong id="days">—</strong> dias</small>
+        <small id="since">desde 10/01/2026</small>
+      </div>
+    </div>
+  </section>
+  <section class="note">
+    <p id="dedication">Que nunca faltem motivos para sorrir, sonhos para realizar e amor para aquecer seu coração.</p>
+    <p class="signature">Com carinho, para você 🌻</p>
+  </section>
+  <div class="controls">
+    <button id="surprise">✨ Revelar uma mensagem</button>
+    <button class="secondary" id="stars">✦ Mais estrelas</button>
+  </div>
+  <p class="hint">Feito com carinho • Toque nos botões para descobrir os efeitos</p>
+</main>
+<script>
+(() => {
+  const canvas = document.getElementById('space');
+  const ctx = canvas.getContext('2d');
+  let w, h, stars = [], extra = 0;
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = Math.round(w*dpr); canvas.height = Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count = Math.floor(w*h/5000) + extra;
+    stars = Array.from({length:count}, () => ({
+      x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.6+.25,
+      a:Math.random()*.65+.2, phase:Math.random()*Math.PI*2,
+      speed:Math.random()*.018+.004, gold:Math.random()>.58
+    }));
+  }
+  function draw(t) {
+    ctx.clearRect(0,0,w,h);
+    for (const s of stars) {
+      const alpha = s.a * (.55 + .45*Math.sin(t*s.speed+s.phase));
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = s.gold ? `rgba(255,224,91,${alpha})` : `rgba(255,255,230,${alpha})`;
+      ctx.fill();
+      if(s.r>1.35) {
+        ctx.strokeStyle=`rgba(255,232,140,${alpha*.5})`; ctx.lineWidth=.6;
+        ctx.beginPath();ctx.moveTo(s.x-3,s.y);ctx.lineTo(s.x+3,s.y);ctx.moveTo(s.x,s.y-3);ctx.lineTo(s.x,s.y+3);ctx.stroke();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
+  // Partículas douradas percorrem o contorno do coração e flutuam ao redor dele.
+  const heartPath = document.getElementById('heartPath');
+  const particleGroup = document.getElementById('heartParticles');
+  const drifterGroup = document.getElementById('heartDrifters');
+  if (heartPath && particleGroup && drifterGroup) {
+    const length = heartPath.getTotalLength();
+    const particles = [];
+    const count = 190;
+    for (let i = 0; i < count; i++) {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      const r = 0.8 + Math.random() * 1.8;
+      c.setAttribute('r', r);
+      particleGroup.appendChild(c);
+      particles.push({el:c, offset:Math.random()*length, speed:0.12+Math.random()*0.45, phase:Math.random()*6.28, r});
+    }
+    const drifters = [];
+    for (let i = 0; i < 65; i++) {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('r', 0.5 + Math.random()*1.3);
+      drifterGroup.appendChild(c);
+      drifters.push({el:c, angle:Math.random()*Math.PI*2, radius:78+Math.random()*67, speed:(Math.random()*.18+.04)*(Math.random()>.5?1:-1), phase:Math.random()*6.28, r:0.5+Math.random()*1.3});
+    }
+    function animateHeart(t) {
+      particles.forEach(p => {
+        const pos = heartPath.getPointAtLength((p.offset + t*p.speed*0.025 + length) % length);
+        const pulse = .7 + .5*(.5 + .5*Math.sin(t*.004+p.phase));
+        p.el.setAttribute('cx', pos.x + Math.sin(t*.0015+p.phase)*1.1);
+        p.el.setAttribute('cy', pos.y + Math.cos(t*.0017+p.phase)*1.1);
+        p.el.setAttribute('r', p.r*pulse);
+        p.el.setAttribute('opacity', .45 + .55*(.5+.5*Math.sin(t*.003+p.phase)));
+      });
+      drifters.forEach(p => {
+        const a = p.angle + t*p.speed*.001;
+        const x = 150 + Math.cos(a)*p.radius;
+        const y = 132 + Math.sin(a)*p.radius*.78;
+        p.el.setAttribute('cx', x); p.el.setAttribute('cy', y);
+        p.el.setAttribute('opacity', .25 + .75*(.5+.5*Math.sin(t*.003+p.phase)));
+        p.el.setAttribute('r', p.r*(.7+.5*Math.sin(t*.002+p.phase)**2));
+      });
+      requestAnimationFrame(animateHeart);
+    }
+    requestAnimationFrame(animateHeart);
+  }
+
+  const startDate = new Date(2026, 0, 10, 0, 0, 0); // 10/01/2026, horário local
+  function updateRelationshipCounter() {
+    const now = new Date();
+    const elapsed = Math.max(0, now.getTime() - startDate.getTime());
+    const days = Math.floor(elapsed / 86400000);
+    const daysEl = document.getElementById('days');
+    if (daysEl) daysEl.textContent = days.toLocaleString('pt-BR');
+  }
+  updateRelationshipCounter();
+  setInterval(updateRelationshipCounter, 1000);
+
+  const messages = [
+    'Você é a parte mais bonita dos meus dias. 🌻',
+    'Se eu pudesse escolher de novo, ainda escolheria você. 💛',
+    'Que a vida te devolva toda a luz que você espalha.',
+    'Meu carinho por você é maior que esse universo de estrelas. ✨',
+    'Em qualquer galáxia, eu procuraria seu brilho.'
+  ];
+  let current = 0;
+  document.getElementById('surprise').addEventListener('click', () => {
+    current = (current+1) % messages.length;
+    const el = document.getElementById('dedication');
+    el.animate([{opacity:0, transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:450});
+    el.textContent = messages[current];
+    burst();
+  });
+  document.getElementById('stars').addEventListener('click', () => { extra = extra ? 0 : 180; resize(); burst(); });
+  function burst() {
+    for(let i=0;i<45;i++) {
+      const s=document.createElement('span'); s.textContent=Math.random()>.5?'✦':'✧';
+      s.style.cssText=`position:fixed;z-index:5;left:${Math.random()*100}vw;top:${Math.random()*100}vh;color:${Math.random()>.5?'#ffe66d':'#fff8d8'};pointer-events:none;font-size:${10+Math.random()*18}px;text-shadow:0 0 12px #ffe66d;transition:transform 1.2s ease,opacity 1.2s ease;`;
+      document.body.appendChild(s);
+      requestAnimationFrame(()=>{s.style.transform=`translate(${(Math.random()-.5)*120}px,${(Math.random()-.5)*120}px) rotate(${Math.random()*180}deg)`;s.style.opacity='0';});
+      setTimeout(()=>s.remove(),1300);
+    }
+  }
+})();
+</script>
+</body>
+</html>
